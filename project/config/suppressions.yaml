@@ -1,0 +1,13 @@
+# Documented exceptions. Every entry MUST have a reason, an approver and an expiry date.
+# After the expiry date the exception stops applying and the finding becomes active again.
+suppressions:
+  - rule_ids: [S3-001, S3-004]
+    resource: public-website-assets
+    reason: Intentional public static website bucket; contains only non-sensitive public files
+    approved_by: Team lead
+    expires: 2030-12-31
+  - rule_ids: [S3-001, S3-004]
+    resource: legacy-public-site
+    reason: Old marketing site exception (this one has EXPIRED, so the finding is active again)
+    approved_by: Team lead
+    expires: 2025-12-31

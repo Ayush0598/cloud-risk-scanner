@@ -1,0 +1,51 @@
+
+==============================================================================
+SCAN 1 - the whole system in ONE call: assess()
+==============================================================================
+DATA FLOW (every hand-off recorded):
+  1 Authentication             in=   1  out=   1  account ****9012, guard=on
+  2 Collector                  in=   2  out=  39  82 API calls, 0 'could not check' notes
+  3 Rule engine                in=  39  out=  31  65 checks, 2 suppressed, 0 unknown
+  4 Risk scoring               in=  31  out=  31  highest score 10.0
+  5a Compliance                in=  31  out=  31  findings carrying at least one reference
+  5b Storage                   in=  31  out=  31  scan #1, first scan (no baseline)
+  5c Reporting                 in=  31  out=   3  written to reports
+
+RESULT: posture 21.7/100 | active findings 29 | suppressed 2 | checks run 65
+Read-only proof: {'total_calls': 82, 'distinct_operations': 31, 'blocked_writes': 0, 'all_read_only': True}
+
+Top 5 findings:
+  10.0 CRITICAL S3-001   prod-customer-data       exposure=1.0 blast=x1.0
+   9.8 CRITICAL NET-001  open-ssh                 exposure=1.0 blast=x1.1
+   9.3 CRITICAL NET-001  open-all                 exposure=0.5 blast=x1.1
+   9.0 CRITICAL DB-001   db-bad                   exposure=1.0 blast=x1.0
+   9.0 CRITICAL S3-001   legacy-public-site       exposure=1.0 blast=x1.0
+
+Accuracy vs the planted answer key: TP=29 FP=0 FN=0  precision=1.00 recall=1.00
+
+==============================================================================
+The cloud changes: one problem fixed, one new risky bucket created
+==============================================================================
+  fixed : versioning turned ON for team-notes
+  new   : bucket new-risky-bucket made public-read
+
+==============================================================================
+SCAN 2 - drift compared with scan 1 (storage layer)
+==============================================================================
+  resolved  : ['S3-003|team-notes']
+  new       : ['S3-001|new-risky-bucket', 'S3-002|new-risky-bucket', 'S3-003|new-risky-bucket', 'S3-004|new-risky-bucket']
+  still open: 28
+  posture   : 21.7 -> 17.7
+
+==============================================================================
+Scan history saved in history.db
+==============================================================================
+  {'scan': 1, 'started': '2026-11-15T05:14:12+00:00', 'label': 'baseline', 'posture': 21.7, 'active': 29}
+  {'scan': 2, 'started': '2026-11-15T05:14:13+00:00', 'label': 'after-change', 'posture': 17.7, 'active': 32}
+
+Reports written to: /tmp/clean/GroupNumber_31/project/reports
+  report.csv         7918 bytes
+  report.html      265054 bytes
+  report.json       58380 bytes
+
+Open reports/report.html in a browser to see the full report. Done.

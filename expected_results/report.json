@@ -1,0 +1,1819 @@
+{
+  "identity": {
+    "account": "****9012",
+    "arn_type": "user"
+  },
+  "posture_score": 17.7,
+  "counts": {
+    "CRITICAL": 6,
+    "HIGH": 4,
+    "MEDIUM": 10,
+    "LOW": 12
+  },
+  "checks_run": 69,
+  "per_rule": {
+    "S3-001": {
+      "checked": 6,
+      "passed": 2,
+      "failed": 4,
+      "unknown": 0
+    },
+    "S3-002": {
+      "checked": 6,
+      "passed": 4,
+      "failed": 2,
+      "unknown": 0
+    },
+    "S3-003": {
+      "checked": 6,
+      "passed": 4,
+      "failed": 2,
+      "unknown": 0
+    },
+    "S3-004": {
+      "checked": 6,
+      "passed": 2,
+      "failed": 4,
+      "unknown": 0
+    },
+    "NET-001": {
+      "checked": 10,
+      "passed": 6,
+      "failed": 4,
+      "unknown": 0
+    },
+    "NET-002": {
+      "checked": 4,
+      "passed": 1,
+      "failed": 3,
+      "unknown": 0
+    },
+    "CMP-001": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "CMP-002": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "CMP-003": {
+      "checked": 3,
+      "passed": 1,
+      "failed": 2,
+      "unknown": 0
+    },
+    "DB-001": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "DB-002": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "DB-003": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "IAM-001": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "IAM-002": {
+      "checked": 3,
+      "passed": 2,
+      "failed": 1,
+      "unknown": 0
+    },
+    "IAM-003": {
+      "checked": 3,
+      "passed": 2,
+      "failed": 1,
+      "unknown": 0
+    },
+    "LOG-001": {
+      "checked": 1,
+      "passed": 1,
+      "failed": 0,
+      "unknown": 0
+    },
+    "LOG-002": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "KMS-001": {
+      "checked": 3,
+      "passed": 1,
+      "failed": 2,
+      "unknown": 0
+    },
+    "FN-001": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    },
+    "FN-002": {
+      "checked": 2,
+      "passed": 1,
+      "failed": 1,
+      "unknown": 0
+    }
+  },
+  "unknown": [],
+  "notes": [
+    "Suppression for S3-001 on legacy-public-site expired on 2025-12-31; finding is active again",
+    "Suppression for S3-004 on legacy-public-site expired on 2025-12-31; finding is active again"
+  ],
+  "read_only_proof": {
+    "total_calls": 88,
+    "distinct_operations": 31,
+    "blocked_writes": 0,
+    "all_read_only": true
+  },
+  "findings": [
+    {
+      "rule_id": "S3-001",
+      "title": "S3 bucket ACL grants access to everyone",
+      "domain": "Storage",
+      "resource_id": "prod-customer-data",
+      "resource_name": "prod-customer-data",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "ACL grants permissions to the AllUsers/AuthenticatedUsers group",
+      "remediation": "Remove public grants from the ACL and enable S3 Block Public Access.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "ACL is public and Block Public Access is not fully on: anyone on the internet can read the bucket",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": "confidential",
+      "base": 8.0,
+      "score": 10.0,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 1.0,
+        "raw_total": 10.0,
+        "capped_score": 10.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented.",
+          "PR.AC-3 Remote access is managed."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-001",
+      "title": "Security group opens admin/database ports to the internet",
+      "domain": "Network",
+      "resource_id": "sg-501fcafa61aa894f7",
+      "resource_name": "open-ssh",
+      "resource_type": "security_group",
+      "region": "us-east-1",
+      "evidence": "0.0.0.0/0 (or ::/0) allowed on port(s) [22]",
+      "remediation": "Restrict the source to specific trusted CIDR ranges or use SSM Session Manager.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.1,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "Attached to i-1336a4a30ca9c9fcf, which has a public IP address: reachable from the internet",
+      "dependents": 1,
+      "dependent_names": [
+        "i-1336a4a30ca9c9fcf"
+      ],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.8,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": 1,
+        "blast_multiplier": 1.1,
+        "after_blast": 8.8,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.8,
+        "capped_score": 9.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "5.2 Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+          "5.3 Ensure no security groups allow ingress from ::/0 to remote server administration ports"
+        ],
+        "nist_csf": [
+          "PR.AC-5 Network integrity is protected (e.g., network segregation, network segmentation).",
+          "PR.PT-4 Communications and control networks are protected."
+        ],
+        "iso_27001": [
+          "A.8.20 Networks and network devices should be secured, managed and controlled to protect information in systems an..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-001",
+      "title": "Security group opens admin/database ports to the internet",
+      "domain": "Network",
+      "resource_id": "sg-38d823abde2d28b34",
+      "resource_name": "open-all",
+      "resource_type": "security_group",
+      "region": "us-east-1",
+      "evidence": "0.0.0.0/0 (or ::/0) allowed on port(s) [22, 3306, 3389, 5432]",
+      "remediation": "Restrict the source to specific trusted CIDR ranges or use SSM Session Manager.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.1,
+      "exposure": true,
+      "exposure_level": 0.5,
+      "exposure_reason": "Attached to eni-c921b04f64d6ae773, but none has a public IP: not reachable from the internet directly",
+      "dependents": 1,
+      "dependent_names": [
+        "eni-c921b04f64d6ae773"
+      ],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.3,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": 1,
+        "blast_multiplier": 1.1,
+        "after_blast": 8.8,
+        "exposure_level": 0.5,
+        "exposure_bonus": 0.5,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.3,
+        "capped_score": 9.3
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "5.2 Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+          "5.3 Ensure no security groups allow ingress from ::/0 to remote server administration ports"
+        ],
+        "nist_csf": [
+          "PR.AC-5 Network integrity is protected (e.g., network segregation, network segmentation).",
+          "PR.PT-4 Communications and control networks are protected."
+        ],
+        "iso_27001": [
+          "A.8.20 Networks and network devices should be secured, managed and controlled to protect information in systems an..."
+        ]
+      }
+    },
+    {
+      "rule_id": "DB-001",
+      "title": "RDS instance is publicly accessible",
+      "domain": "Database",
+      "resource_id": "db-bad",
+      "resource_name": "db-bad",
+      "resource_type": "rds_instance",
+      "region": "us-east-1",
+      "evidence": "PubliclyAccessible = true",
+      "remediation": "Disable public accessibility and place the DB in private subnets.",
+      "likelihood": 4,
+      "impact": 5,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "The database is publicly accessible: reachable from the internet",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.0,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.0,
+        "capped_score": 9.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.3.3 Ensure that public access is not given to RDS Instance"
+        ],
+        "nist_csf": [
+          "PR.AC-3 Remote access is managed.",
+          "PR.DS-5 Protections against data leaks are implemented."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-001",
+      "title": "S3 bucket ACL grants access to everyone",
+      "domain": "Storage",
+      "resource_id": "legacy-public-site",
+      "resource_name": "legacy-public-site",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "ACL grants permissions to the AllUsers/AuthenticatedUsers group",
+      "remediation": "Remove public grants from the ACL and enable S3 Block Public Access.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "ACL is public and Block Public Access is not fully on: anyone on the internet can read the bucket",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.0,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.0,
+        "capped_score": 9.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented.",
+          "PR.AC-3 Remote access is managed."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-001",
+      "title": "S3 bucket ACL grants access to everyone",
+      "domain": "Storage",
+      "resource_id": "new-risky-bucket",
+      "resource_name": "new-risky-bucket",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "ACL grants permissions to the AllUsers/AuthenticatedUsers group",
+      "remediation": "Remove public grants from the ACL and enable S3 Block Public Access.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "ACL is public and Block Public Access is not fully on: anyone on the internet can read the bucket",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.0,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.0,
+        "capped_score": 9.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented.",
+          "PR.AC-3 Remote access is managed."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-001",
+      "title": "S3 bucket ACL grants access to everyone",
+      "domain": "Storage",
+      "resource_id": "public-website-assets",
+      "resource_name": "public-website-assets",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "ACL grants permissions to the AllUsers/AuthenticatedUsers group",
+      "remediation": "Remove public grants from the ACL and enable S3 Block Public Access.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "ACL is public and Block Public Access is not fully on: anyone on the internet can read the bucket",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 9.0,
+      "severity": "CRITICAL",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 9.0,
+        "capped_score": 9.0
+      },
+      "suppressed": true,
+      "suppression_reason": "Intentional public static website bucket; contains only non-sensitive public files (approved by Team lead, expires 2030-12-31)",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented.",
+          "PR.AC-3 Remote access is managed."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "IAM-001",
+      "title": "Customer-managed policy grants full administrator access",
+      "domain": "Identity",
+      "resource_id": "AllowEverything",
+      "resource_name": "AllowEverything",
+      "resource_type": "iam_policy",
+      "region": "global",
+      "evidence": "Policy allows Action '*' on Resource '*'",
+      "remediation": "Replace with least-privilege permissions scoped to the needed actions/resources.",
+      "likelihood": 3,
+      "impact": 5,
+      "blast": 1.4,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": 4,
+      "dependent_names": [
+        "group:dev-team",
+        "group:ops-team",
+        "role:role-admin",
+        "user:carol"
+      ],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 6.0,
+      "score": 8.4,
+      "severity": "HIGH",
+      "score_breakdown": {
+        "base": 6.0,
+        "dependents": 4,
+        "blast_multiplier": 1.4,
+        "after_blast": 8.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 8.4,
+        "capped_score": 8.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "1.16 Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached"
+        ],
+        "nist_csf": [
+          "PR.AC-4 Access permissions and authorizations are managed, incorporating the principles of least privilege and sepa..."
+        ],
+        "iso_27001": [
+          "A.8.2 The allocation and use of privileged access rights should be restricted and managed."
+        ]
+      }
+    },
+    {
+      "rule_id": "CMP-002",
+      "title": "Credential-like text found in EC2 user data",
+      "domain": "Compute",
+      "resource_id": "i-1336a4a30ca9c9fcf",
+      "resource_name": "i-1336a4a30ca9c9fcf",
+      "resource_type": "ec2_instance",
+      "region": "us-east-1",
+      "evidence": "User data contains a password/secret/token-style assignment (value not stored)",
+      "remediation": "Move secrets to AWS Secrets Manager or SSM Parameter Store and rotate the exposed value.",
+      "likelihood": 4,
+      "impact": 5,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 8.0,
+      "severity": "HIGH",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 8.0,
+        "capped_score": 8.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.AC-1 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user..."
+        ],
+        "iso_27001": [
+          "A.5.17 Allocation and management of authentication information should be controlled by a management process, inclu..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-001",
+      "title": "Security group opens admin/database ports to the internet",
+      "domain": "Network",
+      "resource_id": "sg-295a2cd72b02cd620",
+      "resource_name": "eu-open-mysql",
+      "resource_type": "security_group",
+      "region": "eu-west-1",
+      "evidence": "0.0.0.0/0 (or ::/0) allowed on port(s) [3306]",
+      "remediation": "Restrict the source to specific trusted CIDR ranges or use SSM Session Manager.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "Not attached to anything right now: the rule is wide open but nothing is reachable through it",
+      "dependents": 0,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 8.0,
+      "severity": "HIGH",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": 0,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 8.0,
+        "capped_score": 8.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "5.2 Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+          "5.3 Ensure no security groups allow ingress from ::/0 to remote server administration ports"
+        ],
+        "nist_csf": [
+          "PR.AC-5 Network integrity is protected (e.g., network segregation, network segmentation).",
+          "PR.PT-4 Communications and control networks are protected."
+        ],
+        "iso_27001": [
+          "A.8.20 Networks and network devices should be secured, managed and controlled to protect information in systems an..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-001",
+      "title": "Security group opens admin/database ports to the internet",
+      "domain": "Network",
+      "resource_id": "sg-f302ef1050ae77bae",
+      "resource_name": "open-rdp-v6",
+      "resource_type": "security_group",
+      "region": "us-east-1",
+      "evidence": "0.0.0.0/0 (or ::/0) allowed on port(s) [3389]",
+      "remediation": "Restrict the source to specific trusted CIDR ranges or use SSM Session Manager.",
+      "likelihood": 5,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "Not attached to anything right now: the rule is wide open but nothing is reachable through it",
+      "dependents": 0,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 8.0,
+      "score": 8.0,
+      "severity": "HIGH",
+      "score_breakdown": {
+        "base": 8.0,
+        "dependents": 0,
+        "blast_multiplier": 1.0,
+        "after_blast": 8.0,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 8.0,
+        "capped_score": 8.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "5.2 Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+          "5.3 Ensure no security groups allow ingress from ::/0 to remote server administration ports"
+        ],
+        "nist_csf": [
+          "PR.AC-5 Network integrity is protected (e.g., network segregation, network segmentation).",
+          "PR.PT-4 Communications and control networks are protected."
+        ],
+        "iso_27001": [
+          "A.8.20 Networks and network devices should be secured, managed and controlled to protect information in systems an..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-004",
+      "title": "S3 Block Public Access is not fully enabled",
+      "domain": "Storage",
+      "resource_id": "prod-customer-data",
+      "resource_name": "prod-customer-data",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "One or more of the four Block Public Access settings is off",
+      "remediation": "Turn on all four Block Public Access settings for the bucket.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "Block Public Access is off and the bucket ACL is public: the bucket is open to the internet",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": "confidential",
+      "base": 4.8,
+      "score": 6.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 1.0,
+        "raw_total": 6.8,
+        "capped_score": 6.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.1.4 Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'"
+        ],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "FN-001",
+      "title": "Lambda function runs with an administrator role",
+      "domain": "Serverless",
+      "resource_id": "fn-admin",
+      "resource_name": "fn-admin",
+      "resource_type": "lambda_function",
+      "region": "us-east-1",
+      "evidence": "The execution role allows Action '*' on Resource '*'",
+      "remediation": "Give the function a role with only the permissions it needs.",
+      "likelihood": 3,
+      "impact": 5,
+      "blast": 1.1,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": 1,
+      "dependent_names": [
+        "fn-admin"
+      ],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 6.0,
+      "score": 6.6,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 6.0,
+        "dependents": 1,
+        "blast_multiplier": 1.1,
+        "after_blast": 6.6,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 6.6,
+        "capped_score": 6.6
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.AC-4 Access permissions and authorizations are managed, incorporating the principles of least privilege and sepa..."
+        ],
+        "iso_27001": [
+          "A.8.2 The allocation and use of privileged access rights should be restricted and managed."
+        ]
+      }
+    },
+    {
+      "rule_id": "IAM-002",
+      "title": "Console user has no MFA",
+      "domain": "Identity",
+      "resource_id": "alice",
+      "resource_name": "alice",
+      "resource_type": "iam_user",
+      "region": "global",
+      "evidence": "User can sign in to the console but has no MFA device",
+      "remediation": "Register an MFA device for the user or remove console access.",
+      "likelihood": 4,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 6.4,
+      "score": 6.4,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 6.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 6.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 6.4,
+        "capped_score": 6.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "1.10 Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password"
+        ],
+        "nist_csf": [
+          "PR.AC-7 Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with th..."
+        ],
+        "iso_27001": [
+          "A.8.5 Secure authentication technologies and procedures should be implemented based on information access restric..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-004",
+      "title": "S3 Block Public Access is not fully enabled",
+      "domain": "Storage",
+      "resource_id": "legacy-public-site",
+      "resource_name": "legacy-public-site",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "One or more of the four Block Public Access settings is off",
+      "remediation": "Turn on all four Block Public Access settings for the bucket.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "Block Public Access is off and the bucket ACL is public: the bucket is open to the internet",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 5.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 5.8,
+        "capped_score": 5.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.1.4 Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'"
+        ],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-004",
+      "title": "S3 Block Public Access is not fully enabled",
+      "domain": "Storage",
+      "resource_id": "new-risky-bucket",
+      "resource_name": "new-risky-bucket",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "One or more of the four Block Public Access settings is off",
+      "remediation": "Turn on all four Block Public Access settings for the bucket.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "Block Public Access is off and the bucket ACL is public: the bucket is open to the internet",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 5.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 5.8,
+        "capped_score": 5.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.1.4 Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'"
+        ],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-004",
+      "title": "S3 Block Public Access is not fully enabled",
+      "domain": "Storage",
+      "resource_id": "public-website-assets",
+      "resource_name": "public-website-assets",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "One or more of the four Block Public Access settings is off",
+      "remediation": "Turn on all four Block Public Access settings for the bucket.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": true,
+      "exposure_level": 1.0,
+      "exposure_reason": "Block Public Access is off and the bucket ACL is public: the bucket is open to the internet",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 5.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 1.0,
+        "exposure_bonus": 1.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 5.8,
+        "capped_score": 5.8
+      },
+      "suppressed": true,
+      "suppression_reason": "Intentional public static website bucket; contains only non-sensitive public files (approved by Team lead, expires 2030-12-31)",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.1.4 Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'"
+        ],
+        "nist_csf": [
+          "PR.DS-5 Protections against data leaks are implemented."
+        ],
+        "iso_27001": [
+          "A.8.3 Access to information and other associated assets should be restricted in accordance with the established t..."
+        ]
+      }
+    },
+    {
+      "rule_id": "CMP-001",
+      "title": "EC2 instance allows IMDSv1",
+      "domain": "Compute",
+      "resource_id": "i-1336a4a30ca9c9fcf",
+      "resource_name": "i-1336a4a30ca9c9fcf",
+      "resource_type": "ec2_instance",
+      "region": "us-east-1",
+      "evidence": "Instance metadata does not require session tokens (HttpTokens != required)",
+      "remediation": "Set HttpTokens=required (IMDSv2) on the instance.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 4.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 4.8,
+        "capped_score": 4.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "5.6 Ensure that EC2 Metadata Service only allows IMDSv2"
+        ],
+        "nist_csf": [
+          "PR.IP-1 A baseline configuration of information technology/industrial control systems is created and maintained inc..."
+        ],
+        "iso_27001": [
+          "A.8.9 Configurations, including security configurations, of hardware, software, services and networks should be e..."
+        ]
+      }
+    },
+    {
+      "rule_id": "FN-002",
+      "title": "Lambda environment variable names suggest embedded secrets",
+      "domain": "Serverless",
+      "resource_id": "fn-admin",
+      "resource_name": "fn-admin",
+      "resource_type": "lambda_function",
+      "region": "us-east-1",
+      "evidence": "Variable name(s) look like secrets: ['DB_PASSWORD'] (values not read into the report)",
+      "remediation": "Store secrets in Secrets Manager/SSM and read them at run time.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 4.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 4.8,
+        "capped_score": 4.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.AC-1 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user..."
+        ],
+        "iso_27001": [
+          "A.5.17 Allocation and management of authentication information should be controlled by a management process, inclu..."
+        ]
+      }
+    },
+    {
+      "rule_id": "IAM-003",
+      "title": "Active access key is older than the allowed age",
+      "domain": "Identity",
+      "resource_id": "alice",
+      "resource_name": "alice",
+      "resource_type": "iam_user",
+      "region": "global",
+      "evidence": "Active key(s) older than 90 days: AKIA**** (200d)",
+      "remediation": "Create a new key, switch applications over, then deactivate and delete the old key.",
+      "likelihood": 3,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.8,
+      "score": 4.8,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.8,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.8,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 4.8,
+        "capped_score": 4.8
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "1.14 Ensure access keys are rotated every 90 days or less"
+        ],
+        "nist_csf": [
+          "PR.AC-1 Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user..."
+        ],
+        "iso_27001": [
+          "A.5.18 Access rights to information and other associated assets should be provisioned, reviewed, modified and remo..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-002",
+      "title": "S3 bucket has no default encryption",
+      "domain": "Storage",
+      "resource_id": "prod-customer-data",
+      "resource_name": "prod-customer-data",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "No default server-side encryption configuration",
+      "remediation": "Enable default encryption (SSE-S3 or SSE-KMS) on the bucket.",
+      "likelihood": 2,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": "confidential",
+      "base": 3.2,
+      "score": 4.2,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 3.2,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 3.2,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 1.0,
+        "raw_total": 4.2,
+        "capped_score": 4.2
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "DB-002",
+      "title": "RDS storage is not encrypted",
+      "domain": "Database",
+      "resource_id": "db-bad",
+      "resource_name": "db-bad",
+      "resource_type": "rds_instance",
+      "region": "us-east-1",
+      "evidence": "StorageEncrypted = false",
+      "remediation": "Restore from an encrypted snapshot copy; enable encryption for new instances.",
+      "likelihood": 2,
+      "impact": 5,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 4.0,
+      "score": 4.0,
+      "severity": "MEDIUM",
+      "score_breakdown": {
+        "base": 4.0,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 4.0,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 4.0,
+        "capped_score": 4.0
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.3.1 Ensure that encryption is enabled for RDS Instances"
+        ],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-003",
+      "title": "S3 bucket versioning is disabled",
+      "domain": "Storage",
+      "resource_id": "prod-customer-data",
+      "resource_name": "prod-customer-data",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "Versioning is not enabled, so overwritten/deleted objects cannot be recovered",
+      "remediation": "Enable bucket versioning (and a lifecycle rule to control cost).",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": "confidential",
+      "base": 2.4,
+      "score": 3.4,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 1.0,
+        "raw_total": 3.4,
+        "capped_score": 3.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.IP-4 Backups of information are conducted, maintained, and tested periodically."
+        ],
+        "iso_27001": [
+          "A.8.13 Backup copies of information, software and systems should be maintained and regularly tested in accordance ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "CMP-003",
+      "title": "EBS volume is not encrypted",
+      "domain": "Compute",
+      "resource_id": "vol-4f14259bfd2f4a70a",
+      "resource_name": "vol-4f14259bfd2f4a70a",
+      "resource_type": "ebs_volume",
+      "region": "eu-west-1",
+      "evidence": "Volume encryption is off",
+      "remediation": "Snapshot, copy with encryption, replace the volume; enable EBS encryption by default.",
+      "likelihood": 2,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 3.2,
+      "score": 3.2,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 3.2,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 3.2,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 3.2,
+        "capped_score": 3.2
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.2.1 Ensure EBS Volume Encryption is Enabled in all Regions"
+        ],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "CMP-003",
+      "title": "EBS volume is not encrypted",
+      "domain": "Compute",
+      "resource_id": "vol-89f486cfd2e6890de",
+      "resource_name": "vol-89f486cfd2e6890de",
+      "resource_type": "ebs_volume",
+      "region": "us-east-1",
+      "evidence": "Volume encryption is off",
+      "remediation": "Snapshot, copy with encryption, replace the volume; enable EBS encryption by default.",
+      "likelihood": 2,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 3.2,
+      "score": 3.2,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 3.2,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 3.2,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 3.2,
+        "capped_score": 3.2
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "2.2.1 Ensure EBS Volume Encryption is Enabled in all Regions"
+        ],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-002",
+      "title": "S3 bucket has no default encryption",
+      "domain": "Storage",
+      "resource_id": "new-risky-bucket",
+      "resource_name": "new-risky-bucket",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "No default server-side encryption configuration",
+      "remediation": "Enable default encryption (SSE-S3 or SSE-KMS) on the bucket.",
+      "likelihood": 2,
+      "impact": 4,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 3.2,
+      "score": 3.2,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 3.2,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 3.2,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 3.2,
+        "capped_score": 3.2
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "LOG-002",
+      "title": "CloudTrail is single-region or lacks log file validation",
+      "domain": "Logging",
+      "resource_id": "trail-weak",
+      "resource_name": "trail-weak",
+      "resource_type": "cloudtrail",
+      "region": "us-east-1",
+      "evidence": "multi_region=False, log_validation=False",
+      "remediation": "Enable IsMultiRegionTrail and EnableLogFileValidation on the trail.",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": true,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.9,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.5,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.9,
+        "capped_score": 2.9
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.1 Ensure CloudTrail is enabled in all regions",
+          "3.2 Ensure CloudTrail log file validation is enabled"
+        ],
+        "nist_csf": [
+          "DE.AE-3 Event data are collected and correlated from multiple sources and sensors."
+        ],
+        "iso_27001": [
+          "A.8.15 Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-002",
+      "title": "VPC flow logs are not enabled",
+      "domain": "Network",
+      "resource_id": "vpc-16621ba6c4ecb4a1e",
+      "resource_name": "vpc-16621ba6c4ecb4a1e",
+      "resource_type": "vpc",
+      "region": "us-east-1",
+      "evidence": "No flow log is attached to this VPC",
+      "remediation": "Create a VPC flow log delivering to CloudWatch Logs or S3.",
+      "likelihood": 3,
+      "impact": 2,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": true,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.9,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.5,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.9,
+        "capped_score": 2.9
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.7 Ensure VPC flow logging is enabled in all VPCs"
+        ],
+        "nist_csf": [
+          "DE.AE-3 Event data are collected and correlated from multiple sources and sensors.",
+          "DE.CM-1 The network is monitored to detect potential cybersecurity events."
+        ],
+        "iso_27001": [
+          "A.8.15 Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-002",
+      "title": "VPC flow logs are not enabled",
+      "domain": "Network",
+      "resource_id": "vpc-5b02c5ef59eb71fdc",
+      "resource_name": "default VPC",
+      "resource_type": "vpc",
+      "region": "us-east-1",
+      "evidence": "No flow log is attached to this VPC",
+      "remediation": "Create a VPC flow log delivering to CloudWatch Logs or S3.",
+      "likelihood": 3,
+      "impact": 2,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": true,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.9,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.5,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.9,
+        "capped_score": 2.9
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.7 Ensure VPC flow logging is enabled in all VPCs"
+        ],
+        "nist_csf": [
+          "DE.AE-3 Event data are collected and correlated from multiple sources and sensors.",
+          "DE.CM-1 The network is monitored to detect potential cybersecurity events."
+        ],
+        "iso_27001": [
+          "A.8.15 Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote..."
+        ]
+      }
+    },
+    {
+      "rule_id": "NET-002",
+      "title": "VPC flow logs are not enabled",
+      "domain": "Network",
+      "resource_id": "vpc-b9572f9f17be6b7c5",
+      "resource_name": "default VPC",
+      "resource_type": "vpc",
+      "region": "eu-west-1",
+      "evidence": "No flow log is attached to this VPC",
+      "remediation": "Create a VPC flow log delivering to CloudWatch Logs or S3.",
+      "likelihood": 3,
+      "impact": 2,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": true,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.9,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.5,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.9,
+        "capped_score": 2.9
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.7 Ensure VPC flow logging is enabled in all VPCs"
+        ],
+        "nist_csf": [
+          "DE.AE-3 Event data are collected and correlated from multiple sources and sensors.",
+          "DE.CM-1 The network is monitored to detect potential cybersecurity events."
+        ],
+        "iso_27001": [
+          "A.8.15 Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote..."
+        ]
+      }
+    },
+    {
+      "rule_id": "DB-003",
+      "title": "RDS backup retention is too short",
+      "domain": "Database",
+      "resource_id": "db-bad",
+      "resource_name": "db-bad",
+      "resource_type": "rds_instance",
+      "region": "us-east-1",
+      "evidence": "Backup retention is 0 day(s); policy minimum is 7",
+      "remediation": "Raise BackupRetentionPeriod to at least the configured minimum.",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.4,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.4,
+        "capped_score": 2.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.IP-4 Backups of information are conducted, maintained, and tested periodically."
+        ],
+        "iso_27001": [
+          "A.8.13 Backup copies of information, software and systems should be maintained and regularly tested in accordance ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "KMS-001",
+      "title": "Customer-managed KMS key rotation is disabled",
+      "domain": "Encryption",
+      "resource_id": "4d74c3db-ec20-413f-bf7c-86b6d6e9da20",
+      "resource_name": "rotation-off",
+      "resource_type": "kms_key",
+      "region": "us-east-1",
+      "evidence": "Automatic annual key rotation is off",
+      "remediation": "Enable automatic key rotation on the key.",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.4,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.4,
+        "capped_score": 2.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.6 Ensure rotation for customer created symmetric CMKs is enabled"
+        ],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "KMS-001",
+      "title": "Customer-managed KMS key rotation is disabled",
+      "domain": "Encryption",
+      "resource_id": "c9eab9c1-f861-4cb4-a914-b9a996a6fe3f",
+      "resource_name": "Default master key that protects my EBS volumes when no other key is defined",
+      "resource_type": "kms_key",
+      "region": "us-east-1",
+      "evidence": "Automatic annual key rotation is off",
+      "remediation": "Enable automatic key rotation on the key.",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.4,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.4,
+        "capped_score": 2.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [
+          "3.6 Ensure rotation for customer created symmetric CMKs is enabled"
+        ],
+        "nist_csf": [
+          "PR.DS-1 Data-at-rest is protected."
+        ],
+        "iso_27001": [
+          "A.8.24 Rules for the effective use of cryptography, including cryptographic key management, should be defined and ..."
+        ]
+      }
+    },
+    {
+      "rule_id": "S3-003",
+      "title": "S3 bucket versioning is disabled",
+      "domain": "Storage",
+      "resource_id": "new-risky-bucket",
+      "resource_name": "new-risky-bucket",
+      "resource_type": "s3_bucket",
+      "region": "us-east-1",
+      "evidence": "Versioning is not enabled, so overwritten/deleted objects cannot be recovered",
+      "remediation": "Enable bucket versioning (and a lifecycle rule to control cost).",
+      "likelihood": 2,
+      "impact": 3,
+      "blast": 1.0,
+      "exposure": false,
+      "exposure_level": 0.0,
+      "exposure_reason": "",
+      "dependents": null,
+      "dependent_names": [],
+      "no_logging": false,
+      "sensitivity": null,
+      "base": 2.4,
+      "score": 2.4,
+      "severity": "LOW",
+      "score_breakdown": {
+        "base": 2.4,
+        "dependents": -1,
+        "blast_multiplier": 1.0,
+        "after_blast": 2.4,
+        "exposure_level": 0.0,
+        "exposure_bonus": 0.0,
+        "no_logging_bonus": 0.0,
+        "sensitivity_bonus": 0.0,
+        "raw_total": 2.4,
+        "capped_score": 2.4
+      },
+      "suppressed": false,
+      "suppression_reason": "",
+      "standards": {
+        "cis_aws_foundations": [],
+        "nist_csf": [
+          "PR.IP-4 Backups of information are conducted, maintained, and tested periodically."
+        ],
+        "iso_27001": [
+          "A.8.13 Backup copies of information, software and systems should be maintained and regularly tested in accordance ..."
+        ]
+      }
+    }
+  ]
+}

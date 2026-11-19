@@ -1,0 +1,223 @@
+# standards_map.yaml - maps each rule to external standards (Objective 3 of the project).
+#
+# SOURCES AND HOW THIS WAS PRODUCED
+#   * CIS AWS Foundations Benchmark v3.0.0 : control IDs and titles matched one by one against the
+#     benchmark's own control titles, as transcribed in the open-source Prowler file cis_3.0_aws.json.
+#     Rules with an empty cis list have NO direct control in v3.0 (for example S3 encryption and versioning).
+#   * NIST CSF 1.1 subcategories and ISO/IEC 27001:2022 Annex A controls : chosen by the team from the
+#     published frameworks (names/titles taken from Prowler's nist_csf_1.1_aws.json and
+#     iso27001_2022_aws.json). These are reasonable mappings, NOT official crosswalks - review before citing.
+#   * OWASP Cloud Top 10 : not mapped yet.
+#   * Every ID below was checked programmatically to exist in the source files.
+#   Control numbers change between benchmark versions, so always cite the version.
+frameworks:
+  cis_aws_foundations:
+    name: CIS Amazon Web Services Foundations Benchmark
+    version: 3.0.0
+  nist_csf:
+    name: NIST Cybersecurity Framework
+    version: '1.1'
+  iso_27001:
+    name: ISO/IEC 27001 Annex A
+    version: '2022'
+rules:
+  S3-001:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.DS-5
+      title: Protections against data leaks are implemented.
+    - id: PR.AC-3
+      title: Remote access is managed.
+    iso_27001:
+    - id: A.8.3
+      title: Access to information and other associated assets should be restricted in accordance with the established t...
+  S3-002:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.DS-1
+      title: Data-at-rest is protected.
+    iso_27001:
+    - id: A.8.24
+      title: Rules for the effective use of cryptography, including cryptographic key management, should be defined and ...
+  S3-003:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.IP-4
+      title: Backups of information are conducted, maintained, and tested periodically.
+    iso_27001:
+    - id: A.8.13
+      title: Backup copies of information, software and systems should be maintained and regularly tested in accordance ...
+  S3-004:
+    cis_aws_foundations:
+    - id: 2.1.4
+      title: Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'
+    nist_csf:
+    - id: PR.DS-5
+      title: Protections against data leaks are implemented.
+    iso_27001:
+    - id: A.8.3
+      title: Access to information and other associated assets should be restricted in accordance with the established t...
+  NET-001:
+    cis_aws_foundations:
+    - id: '5.2'
+      title: Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports
+    - id: '5.3'
+      title: Ensure no security groups allow ingress from ::/0 to remote server administration ports
+    nist_csf:
+    - id: PR.AC-5
+      title: Network integrity is protected (e.g., network segregation, network segmentation).
+    - id: PR.PT-4
+      title: Communications and control networks are protected.
+    iso_27001:
+    - id: A.8.20
+      title: Networks and network devices should be secured, managed and controlled to protect information in systems an...
+  NET-002:
+    cis_aws_foundations:
+    - id: '3.7'
+      title: Ensure VPC flow logging is enabled in all VPCs
+    nist_csf:
+    - id: DE.AE-3
+      title: Event data are collected and correlated from multiple sources and sensors.
+    - id: DE.CM-1
+      title: The network is monitored to detect potential cybersecurity events.
+    iso_27001:
+    - id: A.8.15
+      title: Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote...
+  CMP-001:
+    cis_aws_foundations:
+    - id: '5.6'
+      title: Ensure that EC2 Metadata Service only allows IMDSv2
+    nist_csf:
+    - id: PR.IP-1
+      title: A baseline configuration of information technology/industrial control systems is created and maintained inc...
+    iso_27001:
+    - id: A.8.9
+      title: Configurations, including security configurations, of hardware, software, services and networks should be e...
+  CMP-002:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.AC-1
+      title: Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user...
+    iso_27001:
+    - id: A.5.17
+      title: Allocation and management of authentication information should be controlled by a management process, inclu...
+  CMP-003:
+    cis_aws_foundations:
+    - id: 2.2.1
+      title: Ensure EBS Volume Encryption is Enabled in all Regions
+    nist_csf:
+    - id: PR.DS-1
+      title: Data-at-rest is protected.
+    iso_27001:
+    - id: A.8.24
+      title: Rules for the effective use of cryptography, including cryptographic key management, should be defined and ...
+  DB-001:
+    cis_aws_foundations:
+    - id: 2.3.3
+      title: Ensure that public access is not given to RDS Instance
+    nist_csf:
+    - id: PR.AC-3
+      title: Remote access is managed.
+    - id: PR.DS-5
+      title: Protections against data leaks are implemented.
+    iso_27001:
+    - id: A.8.3
+      title: Access to information and other associated assets should be restricted in accordance with the established t...
+  DB-002:
+    cis_aws_foundations:
+    - id: 2.3.1
+      title: Ensure that encryption is enabled for RDS Instances
+    nist_csf:
+    - id: PR.DS-1
+      title: Data-at-rest is protected.
+    iso_27001:
+    - id: A.8.24
+      title: Rules for the effective use of cryptography, including cryptographic key management, should be defined and ...
+  DB-003:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.IP-4
+      title: Backups of information are conducted, maintained, and tested periodically.
+    iso_27001:
+    - id: A.8.13
+      title: Backup copies of information, software and systems should be maintained and regularly tested in accordance ...
+  IAM-001:
+    cis_aws_foundations:
+    - id: '1.16'
+      title: Ensure IAM policies that allow full "*:*" administrative privileges are not attached
+    nist_csf:
+    - id: PR.AC-4
+      title: Access permissions and authorizations are managed, incorporating the principles of least privilege and sepa...
+    iso_27001:
+    - id: A.8.2
+      title: The allocation and use of privileged access rights should be restricted and managed.
+  IAM-002:
+    cis_aws_foundations:
+    - id: '1.10'
+      title: Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password
+    nist_csf:
+    - id: PR.AC-7
+      title: Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with th...
+    iso_27001:
+    - id: A.8.5
+      title: Secure authentication technologies and procedures should be implemented based on information access restric...
+  IAM-003:
+    cis_aws_foundations:
+    - id: '1.14'
+      title: Ensure access keys are rotated every 90 days or less
+    nist_csf:
+    - id: PR.AC-1
+      title: Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user...
+    iso_27001:
+    - id: A.5.18
+      title: Access rights to information and other associated assets should be provisioned, reviewed, modified and remo...
+  LOG-001:
+    cis_aws_foundations:
+    - id: '3.1'
+      title: Ensure CloudTrail is enabled in all regions
+    nist_csf:
+    - id: DE.AE-3
+      title: Event data are collected and correlated from multiple sources and sensors.
+    - id: DE.CM-1
+      title: The network is monitored to detect potential cybersecurity events.
+    iso_27001:
+    - id: A.8.15
+      title: Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote...
+  LOG-002:
+    cis_aws_foundations:
+    - id: '3.1'
+      title: Ensure CloudTrail is enabled in all regions
+    - id: '3.2'
+      title: Ensure CloudTrail log file validation is enabled
+    nist_csf:
+    - id: DE.AE-3
+      title: Event data are collected and correlated from multiple sources and sensors.
+    iso_27001:
+    - id: A.8.15
+      title: Logs that record activities, exceptions, faults and other relevant events should be produced, stored, prote...
+  KMS-001:
+    cis_aws_foundations:
+    - id: '3.6'
+      title: Ensure rotation for customer created symmetric CMKs is enabled
+    nist_csf:
+    - id: PR.DS-1
+      title: Data-at-rest is protected.
+    iso_27001:
+    - id: A.8.24
+      title: Rules for the effective use of cryptography, including cryptographic key management, should be defined and ...
+  FN-001:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.AC-4
+      title: Access permissions and authorizations are managed, incorporating the principles of least privilege and sepa...
+    iso_27001:
+    - id: A.8.2
+      title: The allocation and use of privileged access rights should be restricted and managed.
+  FN-002:
+    cis_aws_foundations: []
+    nist_csf:
+    - id: PR.AC-1
+      title: Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, user...
+    iso_27001:
+    - id: A.5.17
+      title: Allocation and management of authentication information should be controlled by a management process, inclu...

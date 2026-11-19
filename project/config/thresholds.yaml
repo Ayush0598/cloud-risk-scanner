@@ -1,0 +1,4 @@
+# Tunable limits used by the rule engine. Change a number here, not in code.
+access_key_max_age_days: 90        # IAM-003: active keys older than this are flagged
+backup_retention_min_days: 7       # DB-003: databases with fewer backup days are flagged
+sensitive_ports: [22, 3389, 3306, 5432]   # NET-001: SSH, RDP, MySQL, PostgreSQL

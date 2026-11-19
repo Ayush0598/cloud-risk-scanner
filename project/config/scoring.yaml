@@ -1,0 +1,22 @@
+# Risk scoring model (see notebook, Module 5, for the justification of each value).
+#   base score  = likelihood (1-5) x impact (1-5) x scale_factor      -> 0..10
+#   finding     = base x blast_radius + bonuses, capped at max_score
+#   blast       = min(blast_cap, 1 + blast_per_dependent x dependents)   (counted from the account;
+#                 rules that cannot count fall back to their fixed default)
+#   exposure    = exposure_bonus x exposure_level   (level 1.0 reachable, 0.5 partly, 0 not reachable)
+scale_factor: 0.4          # chosen so the worst case 5 x 5 gives exactly 10
+exposure_bonus: 1.0        # full bonus when the resource is really reachable from the internet (scaled by exposure_level)
+no_logging_bonus: 0.5      # abuse would go unnoticed (logging/monitoring missing)
+sensitivity_bonus: 1.0     # resource tagged as holding sensitive data
+sensitivity_tag: data-classification
+sensitive_labels: [confidential, restricted]
+max_score: 10.0
+blast_per_dependent: 0.1   # each extra dependent (user, role, function, interface ...) adds this to the blast multiplier
+blast_cap: 1.5             # the multiplier never exceeds this
+# Severity bands, CVSS-style: Critical >= 9.0, High 7.0-8.9, Medium 4.0-6.9, Low < 4.0
+band_critical: 9.0
+band_high: 7.0
+band_medium: 4.0
+# Account posture: 100 - 100 * sum(score^exponent) / (checks_run * 10^exponent * worst_case_factor)
+posture_exponent: 1.5      # >1 so a few critical findings cannot hide behind many passes
+posture_worst_case_factor: 0.25

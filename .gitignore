@@ -1,0 +1,18 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+.ipynb_checkpoints/
+
+# Generated when you run the demo (sample outputs are in expected_results/)
+project/reports/
+project/history.db
+*.db
+
+# Secrets (the project never needs real AWS keys)
+.env
+*.pem
+credentials
